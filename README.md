@@ -5,11 +5,21 @@ Proyecto integrando una API REST con Flask y una Base de datos SQLite.
 La ejecución es bien simple y directa, solo se debe descargar el repo, entrar en la caperta generada donde se encuentra el archivo app.py, donde se debe ejecutar uno de los siguientes comandos dependiendo de su instalación de Python. La API esta diseñada en Python 3.
 
 ```
-python3 -m flask run --port [portnumber]
+python3 app.py
 
-python -m flask run --port [portnumber]
+python app.py
 
-py -m flask run --port [portnumber]
+py app.py
+```
+
+La base de datos corresponde al archivo [Backbone.db](Backbone.db), ya contiene toda la información necesaria. Si desea crear una nueva con sus propios datos encontrara los archivos para crearla en la carpeta utils.
+
+```
+python3 db_init.py
+
+python db_init.py
+
+py db_init.py
 ```
 
 Para realizar consultas a la API se deben utilizar las siguientes rutas:
