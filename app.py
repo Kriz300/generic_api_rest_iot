@@ -20,50 +20,50 @@ def get_db_connection():
 
 @app.route('/api/v1/company/', methods=["GET","PUT","DELETE"])
 def company():
-    var  = request.args.get('var', None)
+    key  = request.args.get('key', None)
     conn = get_db_connection()
     if request.method == 'GET':
-        if var == "all":
+        if key == "all":
             posts = conn.execute('SELECT * FROM Company').fetchall()
         else:
-            posts = conn.execute('SELECT * FROM Company WHERE company_api_key=' + var).fetchall()
+            posts = conn.execute('SELECT * FROM Company WHERE company_api_key=' + key).fetchall()
         conn.close()
     elif request.method == 'PUT':
-        posts = conn.execute('SELECT * FROM Company WHERE company_api_key=' + var).fetchall()
+        posts = conn.execute('SELECT * FROM Company WHERE company_api_key=' + key).fetchall()
     elif request.method == 'DELETE':
-        posts = conn.execute('SELECT * FROM Company WHERE company_api_key=' + var).fetchall()
+        posts = conn.execute('SELECT * FROM Company WHERE company_api_key=' + key).fetchall()
     return str(posts), 200
 
 @app.route('/api/v1/location/', methods=["GET","PUT","DELETE"])
 def location():
-    var  = request.args.get('var', None)
+    key  = request.args.get('key', None)
     conn = get_db_connection()
     if request.method == 'GET':
-        if var == "all":
+        if key == "all":
             posts = conn.execute('SELECT * FROM Location').fetchall()
         else:
-            posts = conn.execute('SELECT * FROM Location WHERE company_id=' + var).fetchall()
+            posts = conn.execute('SELECT * FROM Location WHERE company_id=' + key).fetchall()
         conn.close()
     elif request.method == 'PUT':
-        posts = conn.execute('SELECT * FROM Location WHERE company_id=' + var).fetchall()
+        posts = conn.execute('SELECT * FROM Location WHERE company_id=' + key).fetchall()
     elif request.method == 'DELETE':
-        posts = conn.execute('SELECT * FROM Location WHERE company_id=' + var).fetchall()
+        posts = conn.execute('SELECT * FROM Location WHERE company_id=' + key).fetchall()
     return str(posts), 200
 
 @app.route('/api/v1/sensor/', methods=["GET","PUT","DELETE"])
 def sensor():
-    var  = request.args.get('var', None)
+    key  = request.args.get('key', None)
     conn = get_db_connection()
     if request.method == 'GET':
-        if var == "all":
+        if key == "all":
             posts = conn.execute('SELECT * FROM Sensor').fetchall()
         else:
-            posts = conn.execute('SELECT * FROM Sensor WHERE sensor_api_key=' + var).fetchall()
+            posts = conn.execute('SELECT * FROM Sensor WHERE sensor_api_key=' + key).fetchall()
         conn.close()
     elif request.method == 'PUT':
-        posts = conn.execute('SELECT * FROM Sensor WHERE sensor_api_key=' + var).fetchall()
+        posts = conn.execute('SELECT * FROM Sensor WHERE sensor_api_key=' + key).fetchall()
     elif request.method == 'DELETE':
-        posts = conn.execute('SELECT * FROM Sensor WHERE sensor_api_key=' + var).fetchall()
+        posts = conn.execute('SELECT * FROM Sensor WHERE sensor_api_key=' + key).fetchall()
     return str(posts), 200
 
 @app.route('/api/v1/sensor_data/', methods=["POST","GET"])
