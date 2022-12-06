@@ -1,5 +1,12 @@
 from flask import Flask, request
 import sqlite3
+import datetime  
+
+  
+# using the datetime.fromtimestamp() function  
+def epoch_to_time(tiempo):
+    date_time = datetime.datetime.fromtimestamp(tiempo) 
+    return date_time
 
 app = Flask(__name__)
 
@@ -131,10 +138,12 @@ def sensor():
 def sensor_data():
     conn = get_db_connection()
     if request.method == 'POST':
-        data = request.form.get('data', None)
-        sensor_api_key = request.form.get('sensor_api_key', None)
-        sensor_id = conn.execute('SELECT sensor.sensor_ID FROM Sensor WHERE sensor.sensor_api_key = ?', (sensor_api_key,)).fetchone()#Lista
-        posts = conn.execute('INSERT INTO Sensor_data (sensor_ID, data, time) VALUES (?, ?, ?)', (sensor_id,data['data'], data['time'])).fetchall()
+        query = request.json
+        sensor_api_key = query['sensor_api_key']
+        list_data = query['json_data']
+        sensor_id = conn.execute('SELECT sensor.sensor_ID FROM sensor WHERE sensor.sensor_api_key = ?', (sensor_api_key,)).fetchone()[0]#Lista
+        for data in list_data:
+            posts = conn.execute('INSERT INTO Sensor_data (sensor_ID, data, time) VALUES (?, ?, ?)', (sensor_id, data['medicion'],data['time'])).fetchall()
         conn.commit()
         conn.close()
         return 'created', 201
@@ -142,12 +151,12 @@ def sensor_data():
         company_api_key  = request.args.get('company_api_key', None)
         from_query = request.args.get('from', None)
         to_query = request.args.get('to', None)
-        list_sensor_id = (request.args.get('list', None)).split(',')
+        list_sensor_id = (request.args.get('sensor_id', None)).split(',')
         posts = []
-        print(list_sensor_id)
         for sensor_id in list_sensor_id:
-            post = conn.execute('SELECT * FROM sensor_data sd, sensor s, location l, company c WHERE c.company_api_key = ? and cd.company_ID = l.company_ID and l.location_ID = s.location_ID and s.sensor_ID = sd.sensor_ID and sd.sensor_ID = ?, and sd.from > ? and sd.to < ?', (company_api_key, sensor_id, from_query, to_query)).fetchall()
-            posts.append(post)        
+            post = conn.execute('SELECT sd.sensor_ID, sd.data, sd.time FROM sensor_data sd, sensor s, location l, company c WHERE c.company_api_key = ? and c.company_ID = l.company_ID and l.location_ID = s.location_ID and s.sensor_ID = sd.sensor_ID and sd.sensor_ID = ? and sd.time >= ? and sd.time <= ?', (company_api_key, sensor_id, from_query, to_query)).fetchone()
+            if post != None:
+                posts.append(post)        
         conn.close()
         return str(posts), 201
 
