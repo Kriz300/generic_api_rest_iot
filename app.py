@@ -139,8 +139,15 @@ def sensor_data():
         conn.close()
         return 'created', 201
     elif request.method == 'GET':
-        sensor_id = conn.execute('SELECT sensor_ID FROM Sensor WHERE sensor_api_key =?' + (sensor_api_key,)).fetchall()
-        posts = conn.execute('SELECT * FROM sensor_data WHERE sensor_ID = ?', (sensor_id,)).fetchall()
+        company_api_key  = request.args.get('company_api_key', None)
+        from_query = request.args.get('from', None)
+        to_query = request.args.get('to', None)
+        list_sensor_id = (request.args.get('list', None)).split(',')
+        posts = []
+        print(list_sensor_id)
+        for sensor_id in list_sensor_id:
+            post = conn.execute('SELECT * FROM sensor_data sd, sensor s, location l, company c WHERE c.company_api_key = ? and cd.company_ID = l.company_ID and l.location_ID = s.location_ID and s.sensor_ID = sd.sensor_ID and sd.sensor_ID = ?, and sd.from > ? and sd.to < ?', (company_api_key, sensor_id, from_query, to_query)).fetchall()
+            posts.append(post)        
         conn.close()
         return str(posts), 201
 
