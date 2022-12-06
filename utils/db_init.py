@@ -17,6 +17,7 @@ conn.execute("INSERT INTO Location (company_ID, location_name, location_country,
 
 #Crea sensores
 conn.execute("INSERT INTO Sensor (location_ID, sensor_name, sensor_category, sensor_meta, sensor_api_key) VALUES (1,'sensor1','movimiento','Si te mueves te ve','s_ssak_1')")
+conn.execute("INSERT INTO Sensor (location_ID, sensor_name, sensor_category, sensor_meta, sensor_api_key) VALUES (1,'sensor2','calor','te ve','s_ssak_2')")
 
 conn.commit()
 conn.close()

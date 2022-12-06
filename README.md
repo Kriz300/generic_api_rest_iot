@@ -26,19 +26,15 @@ Para realizar consultas a la API se deben utilizar las siguientes rutas:
 
 ```
 #Consulta GET
-https://[sitio/ip]:[portnumber]/api/v1/[tarjet]/?key=[company_api_key]
+https://[sitio/ip]:[portnumber]/api/v1/[tarjet]/?company_api_key=[company_api_key]
 
 https://[sitio/ip]:[portnumber]/api/v1/sensor_data/?from=[EPOCH_time]&to=[EPOCH_time]&key=[sensor_api_key]&id=[sensor_id]
 
-
-#Editar PUT
-https://[sitio/ip]:[portnumber]/api/v1/[tarjet]/?id=[company_api_key]
-
-#Insertar datos POST
+#Insertar datos POST y Editar PUT
 https://[sitio/ip]:[portnumber]/api/v1/[tarjet]/
 
 #Eliminar datos Datos
-https://[sitio/ip]:[portnumber]/api/v1/[tarjet]/
+https://[sitio/ip]:[portnumber]/api/v1/[tarjet]/?[target]_id=[target_id]&[tarjet]_api_key=[company_api_key | sensor_api_key]
 ```
 Los parametros que aparecen en los comandos se explican a continuación:
 
